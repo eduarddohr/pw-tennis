@@ -71,14 +71,14 @@ body, html {
 <div class="w3-container" id="despre">
   <div class="w3-content" style="max-width:700px">
     <h5 class="w3-center w3-padding-64"><span class="w3-tag w3-wide">CEVA</span></h5>
-    <p>O descriere</p>
+    <p align="center">Cel mai bun teren de tenis de camp din oras!</p>
   </div>
 </div>
 
 <div class="w3-container" id="rezervare">
   <div class="w3-content" style="max-width:700px">
     <h5 class="w3-center w3-padding-64"><span class="w3-tag w3-wide">REZERVARE</span></h5>
-    <p></p>
+    <p align="center">Pentru rezervare, autentificati-va!</p>
   </div>
 </div>
 

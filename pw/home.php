@@ -98,7 +98,7 @@ body, html {
 <div class="w3-container" id="despre">
   <div class="w3-content" style="max-width:700px">
     <h5 class="w3-center w3-padding-64"><span class="w3-tag w3-wide">CEVA</span></h5>
-    <p>O descriere</p>
+    <p align="center">Cel mai bun teren de tenis de camp din oras!</p>
   </div>
 </div>
 
@@ -107,10 +107,18 @@ body, html {
     <h5 class="w3-center w3-padding-64"><span class="w3-tag w3-wide">REZERVARE</span></h5>
     <div id="calendarContainer"></div>
 	<div id="organizerContainer"></div>
+	
   </div>
 </div>
 
-
+<div class="w3-container" style="padding-bottom:32px;">
+  <div class="w3-content" style="max-width:400px">
+    <form action="#rezervare" method="POST">
+      <p><input id="dat" class="w3-input w3-padding-16 w3-border" name="dat" type="datetime-local" placeholder="Date and time" value="2018-10-16T20:00"></p>
+      <p><button type="submit" class="w3-button w3-black" onclick="adaugare()">REZERVA</button></p>
+    </form>
+  </div>
+</div>
 
 <!-- locatie -->
 <div class="w3-container" id="unde" style="padding-bottom:32px;">
@@ -123,92 +131,53 @@ body, html {
 
 <!-- End page content -->
 </div>
-
-
-
-<!-- Harta -->
 <script src="https://cdn.rawgit.com/nizarmah/calendar-javascript-lib/master/calendarorganizer.min.js"></script>
-<script>
-function myMap()
-{
-  myCenter=new google.maps.LatLng(41.878114, -87.629798);
-  var mapOptions= {
-    center:myCenter,
-    zoom:12, scrollwheel: false, draggable: true,
-    mapTypeId:google.maps.MapTypeId.ROADMAP
-  };
-  var map=new google.maps.Map(document.getElementById("googleMap"),mapOptions);
+<script src="incarcare.js"></script>
 
-  var marker = new google.maps.Marker({
-    position: myCenter,
-  });
-  marker.setMap(map);
-}
-"use strict";
+<?php
+	$con = mysqli_connect("localhost","root","");
+	mysqli_select_db($con,"tenis") or die("Nu se poate accesa baza de date");
+	$query = mysqli_query($con,"Select * from rezervari");
+	while($row = mysqli_fetch_array($query, MYSQLI_BOTH)){
+			$table_date = $row['data'];
+			echo ("<script type='text/javascript'>
+				var da = new Date('$table_date');
+				createData(da.getFullYear(), da.getMonth() + 1, da.getDate(), da.getHours());
+			</script>
+			") ;
+		}
+	echo ("<script src='calendar.js'></script>");
+	
+	if($_SERVER["REQUEST_METHOD"] == "POST"){
+		$cand1 = $_POST['dat'];
+		$cand=date("Y-m-d H:i:s",strtotime($cand1));
+		$bool = true;
+		
+		mysqli_select_db($con,"tenis") or die("Nu se poate accesa baza de date");		
+		$query = mysqli_query($con,"Select * from rezervari");
+		while($row = mysqli_fetch_array($query, MYSQLI_BOTH)){
+			$table_date = $row['data'];
+			if($cand == $table_date){
+				$bool = false;
+				Print '<script>alert("Interval orar ocupat!");</script>';
+				Print '<script>window.location.assign("home.php#rezervare");</script>';
+			}
+		}
+		if($bool){
+			$emailLogat = $_SESSION['user'];
+			$query = mysqli_query($con,"Select * from utilizatori WHERE email = '$emailLogat'");
+			$rand = mysqli_fetch_assoc($query);
+			$idU = $rand['id'];
+			mysqli_query($con,"INSERT INTO rezervari (idUtilizatori, data) VALUES ('$idU', '$cand')");
+			Print '<script>alert("Rezervare cu succes!");</script>';
+			//echo ("<script type='text/javascript'>createData('$cand'.);</script>") ;
+			Print '<script>window.location.assign("home.php");</script>';
+		}
+		
+	}
+?>
 
-// function that creates dummy data for demonstration
-function createDummyData() {
-  var date = new Date();
-  var data = {};
-
-  for (var i = 0; i < 10; i++) {
-    data[date.getFullYear() + i] = {};
-
-    for (var j = 0; j < 12; j++) {
-      data[date.getFullYear() + i][j + 1] = {};
-
-      for (var k = 0; k < Math.ceil(Math.random() * 10); k++) {
-        var l = Math.ceil(Math.random() * 28);
-
-        try {
-          data[date.getFullYear() + i][j + 1][l].push({
-            startTime: "10:00",
-            endTime: "12:00",
-            text: "Some Event Here"
-          });
-        } catch (e) {
-          data[date.getFullYear() + i][j + 1][l] = [];
-          data[date.getFullYear() + i][j + 1][l].push({
-            startTime: "10:00",
-            endTime: "12:00",
-            text: "Some Event Here"
-          });
-        }
-      }
-    }
-  }
-
-  return data;
-}
-
-// creating the dummy static data
-var data = createDummyData();
-
-// initializing a new calendar object, that will use an html container to create itself
-var calendar = new Calendar(
-  "calendarContainer", // id of html container for calendar
-  "small", // size of calendar, can be small | medium | large
-  [
-    "Monday", // left most day of calendar labels
-    3 // maximum length of the calendar labels
-  ],
-  [
-    "#616161", // primary color
-    "#000", // primary dark color
-    "#fff", // text color
-    "#fff" // text dark color
-  ]
-);
-
-// initializing a new organizer object, that will use an html container to create itself
-var organizer = new Organizer(
-  "organizerContainer", // id of html container for calendar
-  calendar, // defining the calendar that the organizer is related to
-  data // giving the organizer the static data that should be displayed
-);
-
-</script>
-
+<script src="harta.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBu-916DdpKAjTmJNIgngS6HL_kDIKU0aU&callback=myMap"></script>
 <!--
 To use this code on your website, get a free API key from Google.
