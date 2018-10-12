@@ -4,21 +4,21 @@ var datal = {};
 
 function createData(y, m, d, h) {
 	//var y,m,d,h;
-	var h2 = h + 2;
+	var h2 = h + 1;
 	
 	//datal[y] = {};
 	if(datal[y])
-		console.log("bun");
+		console.log("");
 	else
 		datal[y] = {};
 	//datal[y][m] = {};
 	if(datal[y][m])
-		console.log("bun");
+		console.log("");
 	else
 		datal[y][m] = {};
 	//datal[y][m][d] = [];
 	if(datal[y][m][d])
-		console.log("bun");
+		console.log("");
 	else
 		datal[y][m][d] = [];
     try{
