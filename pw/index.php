@@ -70,15 +70,18 @@ body, html {
 <!-- despre -->
 <div class="w3-container" id="despre">
   <div class="w3-content" style="max-width:700px">
-    <h5 class="w3-center w3-padding-64"><span class="w3-tag w3-wide">CEVA</span></h5>
+    <h5 class="w3-center w3-padding-64"><span class="w3-tag w3-wide">DESPRE</span></h5>
     <p align="center">Cel mai bun teren de tenis de camp din oras!</p>
+	<p align="center">Pretul pe ora: 30RON.</p>
   </div>
 </div>
+
 
 <div class="w3-container" id="rezervare">
   <div class="w3-content" style="max-width:700px">
     <h5 class="w3-center w3-padding-64"><span class="w3-tag w3-wide">REZERVARE</span></h5>
     <p align="center">Pentru rezervare, autentificati-va!</p>
+	<p align="center">Rezervarile de fac pe o durata de o ora!</p>
   </div>
 </div>
 
@@ -86,7 +89,7 @@ body, html {
 <div class="w3-container" id="login">
   <div class="w3-content" style="max-width:400px">
  
-    <h5 class="w3-center w3-padding-48"><span class="w3-tag w3-wide">PLACEHOLDER</span></h5>
+    <h5 class="w3-center w3-padding-48"><span class="w3-tag w3-wide">AUTENTIFICARE/INREGISTRARE</span></h5>
   
     <div class="w3-row w3-center w3-card w3-padding">
       <a href="javascript:void(0)" onclick="openMenu(event, 'log');" id="myLink">
@@ -123,7 +126,7 @@ body, html {
   <div class="w3-content" style="max-width:700px">
     <h5 class="w3-center w3-padding-48"><span class="w3-tag w3-wide">UNDE</span></h5>
 
-    <div id="googleMap" class="w3-sepia" style="width:100%;height:400px;"></div>
+    <div id="googleMap" style="width:100%;height:400px;"></div>
   </div>
 </div>
 
@@ -133,44 +136,9 @@ body, html {
 
 
 <!-- Harta -->
-<script>
-function myMap()
-{
-  myCenter=new google.maps.LatLng(41.878114, -87.629798);
-  var mapOptions= {
-    center:myCenter,
-    zoom:12, scrollwheel: false, draggable: true,
-    mapTypeId:google.maps.MapTypeId.ROADMAP
-  };
-  var map=new google.maps.Map(document.getElementById("googleMap"),mapOptions);
-
-  var marker = new google.maps.Marker({
-    position: myCenter,
-  });
-  marker.setMap(map);
-}
-
-// login/sigup
-function openMenu(evt, menuName) {
-  var i, x, tablinks;
-  x = document.getElementsByClassName("menu");
-  for (i = 0; i < x.length; i++) {
-     x[i].style.display = "none";
-  }
-  tablinks = document.getElementsByClassName("tablink");
-  for (i = 0; i < x.length; i++) {
-     tablinks[i].className = tablinks[i].className.replace(" w3-dark-grey", "");
-  }
-  document.getElementById(menuName).style.display = "block";
-  evt.currentTarget.firstElementChild.className += " w3-dark-grey";
-}
-document.getElementById("myLink").click();
-</script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBu-916DdpKAjTmJNIgngS6HL_kDIKU0aU&callback=myMap"></script>
-<!--
-To use this code on your website, get a free API key from Google.
-Read more at: https://www.w3schools.com/graphics/google_maps_basic.asp
--->
+<script src="harta.js"></script>
+<script src="logsign.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEIEmhck_v7L0xeSVd4aJDakWPUU9Lrcs&callback=myMap"></script>
 
 </body>
 </html>
