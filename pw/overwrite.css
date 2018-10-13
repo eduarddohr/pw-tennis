@@ -1,0 +1,32 @@
+body, html {
+    height: 100%;
+    font-family: "Inconsolata", sans-serif;
+}
+.bgimg {
+    background-position: center;
+    background-size: cover;
+    background-image: url("header.jpg");
+    min-height: 75%;
+}
+.menu {
+    display: none;
+}
+.w3-block{
+	display:block;
+	width:100%;
+	}
+.nav{
+	float:left;
+	width:20%;
+}
+
+
+#calendarContainer,
+#organizerContainer {
+  float: left;
+  margin: 5px;
+}
+
+.year,.month,.date{
+	width:100% !important;
+}

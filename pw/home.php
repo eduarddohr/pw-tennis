@@ -5,41 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
-<style>
-body, html {
-    height: 100%;
-    font-family: "Inconsolata", sans-serif;
-}
-.bgimg {
-    background-position: center;
-    background-size: cover;
-    background-image: url("header.jpg");
-    min-height: 75%;
-}
-.menu {
-    display: none;
-}
-.w3-block{
-	display:block;
-	width:100%;
-	}
-.nav{
-	float:left;
-	width:20%;
-}
-
-
-#calendarContainer,
-#organizerContainer {
-  float: left;
-  margin: 5px;
-}
-
-.year,.month,.date{
-	width:100% !important;
-}
-
-</style>
+<link rel="stylesheet" href="overwrite.css">
 
 <head>
 <?php
@@ -158,7 +124,7 @@ body, html {
 		$bool = true;
 		$datetime = new DateTime($cand);
 		$ora = $datetime->format('H');
-		if($ora < 8 || $ora > 23){
+		if($ora < 8 || $ora > 22){
 			Print '<script>alert("Interval orar nepermis!");</script>';
 			Print '<script>window.location.assign("#rezervare");</script>';
 		}
@@ -189,11 +155,6 @@ body, html {
 
 <script src="harta.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEIEmhck_v7L0xeSVd4aJDakWPUU9Lrcs&callback=myMap"></script>
-<!--
-To use this code on your website, get a free API key from Google.
-Read more at: https://www.w3schools.com/graphics/google_maps_basic.asp
--->
-
 </body>
 </html>
 

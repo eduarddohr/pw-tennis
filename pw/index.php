@@ -5,29 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
-<style>
-body, html {
-    height: 100%;
-    font-family: "Inconsolata", sans-serif;
-}
-.bgimg {
-    background-position: center;
-    background-size: cover;
-    background-image: url("header.jpg");
-    min-height: 75%;
-}
-.menu {
-    display: none;
-}
-.w3-block{
-	display:block;
-	width:100%;
-	}
-.nav{
-	float:left;
-	width:20%;
-}
-</style>
+<link rel="stylesheet" href="overwrite.css">
+
 <body>
 
 <!-- Links (sit on top) -->
@@ -109,7 +88,7 @@ body, html {
     </div>
 
     <div id="signup" class="w3-container menu w3-padding-48 w3-card">
-		<form action="index.php" method="POST">
+		<form action="signup.php" method="POST">
 			<input class="w3-input w3-padding-16 w3-border" type="text" name="nume" placeholder="Nume" required="required" /><br/>
 			<input class="w3-input w3-padding-16 w3-border" type="text" name="prenume" placeholder="Prenume" required="required"/> <br/>
 			<input class="w3-input w3-padding-16 w3-border" type="password" name="parola" placeholder="Parola" required="required" /> <br/>
@@ -144,33 +123,4 @@ body, html {
 </html>
 
 
-<?php
-	$con = mysqli_connect("localhost","root","");
-	if($_SERVER["REQUEST_METHOD"] == "POST"){
-		$nume = mysqli_real_escape_string($con, $_POST['nume']);
-		$prenume = mysqli_real_escape_string($con, $_POST['prenume']);
-		$tel = mysqli_real_escape_string($con, $_POST['tel']);
-		$email = mysqli_real_escape_string($con, $_POST['email']);
-		$parola = mysqli_real_escape_string($con, $_POST['parola']);
-		
-		echo $nume. $prenume. $tel. $email. $parola;
-	
-		$bool = true;
-		mysqli_select_db($con,"tenis") or die("Nu se poate accesa baza de date");
-		$query = mysqli_query($con,"Select * from utilizatori");
-		while($row = mysqli_fetch_array($query, MYSQLI_BOTH)){
-			$table_email = $row['email'];
-			if($email == $table_email){
-				$bool = false;
-				Print '<script>alert("Email utilizat!");</script>';
-				Print '<script>window.location.assign("index.php");</script>';
-			}
-		}
-		if($bool){
-			mysqli_query($con,"INSERT INTO utilizatori (nume, prenume, email, parola, tel) VALUES ('$nume', '$prenume', '$email', '$parola', '$tel')");
-			Print '<script>alert("Inregistrare cu succes!");</script>';
-			Print '<script>window.location.assign("index.php");</script>';
-		}
-		
-	}
-?>
+
