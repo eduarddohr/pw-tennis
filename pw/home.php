@@ -23,7 +23,6 @@
 </head>
 
 <body>
-<input type="hidden" id="hiddencontainer" name="hiddencontainer"/>
 <!-- Links (sit on top) -->
 <div class="w3-top">
   <div class="w3-row w3-padding w3-black">
@@ -34,10 +33,13 @@
       <a href="#despre" class="w3-button w3-block w3-black">DESPRE</a>
     </div>
     <div class="nav">
-      <a href="#unde" class="w3-button w3-block w3-black">UNDE</a>
+	  <a href="#rezervare" class="w3-button w3-block w3-black">REZERVA</a>
     </div>
 	<div class="nav">
-      <a href="#rezervare" class="w3-button w3-block w3-black">REZERVA</a>
+	  <a href="#rezervarile" class="w3-button w3-block w3-black">REZERVARILE MELE</a>
+    </div>
+	<div class="nav">
+      <a href="#unde" class="w3-button w3-block w3-black">UNDE</a>
     </div>
 	<div class="nav">
       <a href="logout.php" class="w3-button w3-block w3-black">IESIRE DIN CONT</a>
@@ -69,7 +71,7 @@
 	<p align="center">Pretul pe ora: 30RON.</p>
   </div>
 </div>
-
+<!-- rezervare -->
 <div class="w3-container" id="rezervare">
   <div class="w3-content" style="max-width:820px">
     <h5 class="w3-center w3-padding-64"><span class="w3-tag w3-wide">REZERVARE</span></h5>
@@ -87,6 +89,39 @@
       <p><input id="dat" class="w3-input w3-padding-16 w3-border" name="dat" type="datetime-local" placeholder="Date and time" value="2018-10-16T20:00"></p>
       <p><button type="submit" class="w3-button w3-black" onclick="adaugare()">REZERVA</button></p>
     </form>
+  </div>
+</div>
+<!-- rezervarile mele -->
+<div class="w3-container" id="rezervarile">
+  <div class="w3-content" style="max-width:300px">
+    <h5 class="w3-center w3-padding-64"><span class="w3-tag w3-wide">REZERVARILE MELE</span></h5>
+	<?php
+		$con = mysqli_connect("localhost","root","");
+		mysqli_select_db($con,"tenis") or die("Nu se poate accesa baza de date");
+		$emailLogat = $_SESSION['user'];
+		$query = mysqli_query($con,"Select * from utilizatori WHERE email = '$emailLogat'");
+		$rand = mysqli_fetch_array($query); 
+		$idU = $rand['id'];
+		$query = mysqli_query($con, "Select * from rezervari WHERE idUtilizatori = '$idU'");
+		$nrRez = mysqli_num_rows($query);
+		if($nrRez > 0){
+			echo "
+				<table width='100%'>
+			";
+			while($rand = mysqli_fetch_array($query, MYSQLI_BOTH)){
+				$dataRez = $rand['data'];
+				echo "
+					<tr>
+					<td>$dataRez</td>
+					<td id='celula'><a href='#' onclick='stergere($rand[id])'>Sterge</a></td>
+					</tr>
+				";
+			}
+			echo "
+				</table>
+			";
+		}
+	?>
   </div>
 </div>
 
@@ -146,13 +181,19 @@
 				$idU = $rand['id'];
 				mysqli_query($con,"INSERT INTO rezervari (idUtilizatori, data) VALUES ('$idU', '$cand')");
 				Print '<script>alert("Rezervare cu succes!");</script>';
-				//echo ("<script type='text/javascript'>createData('$cand'.);</script>") ;
 				Print '<script>window.location.assign("home.php");</script>';
 			}
 		}
 	}
 ?>
-
+<script>
+function stergere(id){
+	var r = confirm("Sigur doresti sa stergi rezervarea?");
+	if(r == true){
+		window.location.assign("delete.php?id=" + id);
+	}
+}
+</script>
 <script src="harta.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEIEmhck_v7L0xeSVd4aJDakWPUU9Lrcs&callback=myMap"></script>
 </body>

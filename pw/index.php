@@ -6,7 +6,12 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
 <link rel="stylesheet" href="overwrite.css">
-
+<style>
+.nav{
+	float:left;
+	width:20%;
+}
+</style>
 <body>
 
 <!-- Links (sit on top) -->
@@ -19,10 +24,10 @@
       <a href="#despre" class="w3-button w3-block w3-black">DESPRE</a>
     </div>
     <div class="nav">
-      <a href="#unde" class="w3-button w3-block w3-black">UNDE</a>
+	  <a href="#rezervare" class="w3-button w3-block w3-black">REZERVA</a>
     </div>
 	<div class="nav">
-      <a href="#rezervare" class="w3-button w3-block w3-black">REZERVA</a>
+      <a href="#unde" class="w3-button w3-block w3-black">UNDE</a>
     </div>
 	<div class="nav">
       <a href="#login" class="w3-button w3-block w3-black">AUTENTIFICARE/INREGISTRARE</a>
