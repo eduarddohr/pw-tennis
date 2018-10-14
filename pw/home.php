@@ -102,7 +102,7 @@
 		$query = mysqli_query($con,"Select * from utilizatori WHERE email = '$emailLogat'");
 		$rand = mysqli_fetch_array($query); 
 		$idU = $rand['id'];
-		$query = mysqli_query($con, "Select * from rezervari WHERE idUtilizatori = '$idU'");
+		$query = mysqli_query($con, "Select * from rezervari WHERE idUtilizatori = '$idU' ORDER BY data");
 		$nrRez = mysqli_num_rows($query);
 		if($nrRez > 0){
 			echo "
@@ -121,6 +121,9 @@
 				</table>
 			";
 		}
+		else{
+			echo "<p align='center'>Deocamdata nu aveti rezervari!</p>";
+		}
 	?>
   </div>
 </div>
@@ -133,6 +136,77 @@
     <div id="googleMap" style="width:100%;height:400px;"></div>
   </div>
 </div>
+
+<?php
+	$con = mysqli_connect("localhost","root","");
+	mysqli_select_db($con,"tenis") or die("Nu se poate accesa baza de date");
+	$emailLogat = $_SESSION['user'];
+	$query = mysqli_query($con,"Select * from utilizatori WHERE email = '$emailLogat'");
+	$rand = mysqli_fetch_array($query);
+	$esteAdmin = $rand['esteAdmin'];
+	if($esteAdmin != 0){
+		echo "
+			<div class='w3-container' id='admin' style='padding-bottom:32px;'>
+				<div class='w3-content' style='max-width:900px'>
+					<h5 class='w3-center w3-padding-48'><span class='w3-tag w3-wide'>ADMIN</span></h5>
+					<p align='center'>Lista utilizatori:</p>
+					<table align='center'>
+						<tr>
+							<th>Nume</th>
+							<th>Prenume</th>
+							<th>Telefon</th>
+							<th>Email</th>
+							<th>Admin</th>
+							<th></th>
+							<th></th>
+						</tr>
+					
+		";
+		
+		$query = mysqli_query($con, "Select * from utilizatori");
+		while($rand = mysqli_fetch_array($query, MYSQLI_BOTH)){
+				echo "
+					<tr>
+						<td>$rand[nume]</td>
+						<td>$rand[prenume]</td>
+						<td>$rand[tel]</td>
+						<td>$rand[email]</td>
+						<td>$rand[esteAdmin]</td>
+						<td><a href='#' onclick='stergereU($rand[id])'>Sterge</a></td>
+						<td><a href='#' onclick='numeste($rand[id])'>Numeste admin</a></td>
+					</tr>
+				";
+			}
+		echo "
+					</table>
+				<p align='center'>Lista rezervari:</p>
+					<table align='center'>
+						<tr>
+							<th>Email</th>
+							<th>Data</th>
+							<th></th>
+						</tr>		
+		";
+		$query = mysqli_query($con, "Select * from rezervari");
+		while($rand = mysqli_fetch_array($query, MYSQLI_BOTH)){
+			$idU = $rand['idUtilizatori'];
+			$util = mysqli_query($con, "Select * from utilizatori WHERE id ='$idU'");
+			$randUtil = mysqli_fetch_array($util);
+				echo "
+					<tr>
+						<td>$randUtil[email]</td>
+						<td>$rand[data]</td>
+						<td><a href='#' onclick='stergere($rand[id])'>Sterge</a></td>
+					</tr>
+				";
+			}
+		echo "
+					</table>
+				</div>
+			</div>
+		";
+	}
+?>
 
 <!-- End page content -->
 </div>
@@ -191,6 +265,18 @@ function stergere(id){
 	var r = confirm("Sigur doresti sa stergi rezervarea?");
 	if(r == true){
 		window.location.assign("delete.php?id=" + id);
+	}
+}
+function stergereU(id){
+	var r = confirm("Sigur doresti sa stergi utilizatorul?");
+	if(r == true){
+		window.location.assign("deleteuser.php?id=" + id);
+	}
+}
+function numeste(id){
+	var r = confirm("Sigur doresti sa numesti administrator?");
+	if(r == true){
+		window.location.assign("numesteadmin.php?id=" + id);
 	}
 }
 </script>
