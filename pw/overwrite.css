@@ -34,7 +34,7 @@ td {
   margin: 5px;
 }
 
-.year,.month,.date{
+.cjslib-year,.cjslib-month,.cjslib-date{
 	width:100% !important;
 }
 #celula{
